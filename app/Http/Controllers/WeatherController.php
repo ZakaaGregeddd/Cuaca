@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Weather;
 
 class WeatherController extends Controller
 {
@@ -19,13 +20,16 @@ class WeatherController extends Controller
         //Ambil koordinat kota dari Nominatim OpenStreetMap
         // $geoUrl = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($city);
         // $geoResponse = Http::get($geoUrl);
-        $geoUrl = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=id&q=" . urlencode($city);
 
+
+        //untuk menghindari pemblokiran dari Nominatim OpenStreetMap, kita perlu menambahkan User-Agent
+        $geoUrl = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=id&q=" . urlencode($city);
+        // user agent untuk menghindari pemblokiran
         $geoResponse = Http::withHeaders([
             'User-Agent' => 'LaravelWeatherApp/1.0' // Penting agar tidak diblok
         ])->get($geoUrl);
 
-
+        //jika response gagal
         if ($geoResponse->failed() || count($geoResponse->json()) === 0) {
             return view('weather', ['weather' => null, 'cityName' => $city, 'error' => 'Kota tidak ditemukan.']);
         }
@@ -50,6 +54,19 @@ class WeatherController extends Controller
             'cityName' => $city,
             'error' => null,
         ]);
+        
+        // Simpan data cuaca ke dalam database
+        Weather::create([
+            'city_name' => $city,
+            'weather_data' => $weatherData,
+        ]);
+    }
+
+    public function history()
+    {
+        $weatherHistory = Weather::all();
+        return view('weather_history', compact('weatherHistory'));
     }
 }
+
 
