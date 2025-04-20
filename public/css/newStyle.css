@@ -1,0 +1,144 @@
+    body {
+        background-color: #0f111a;
+        color: #ffffff;
+        font-family: 'Nunito', sans-serif;
+        margin: 0;
+        padding: 40px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .search {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .search input {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #000;
+        color: #fff;
+        width: 250px;
+        box-shadow: 0 0 10px #00bfff;
+    }
+
+    .search button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 20px;
+        background-color: #000;
+        color: white;
+        box-shadow: 0 0 10px #00bfff;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .search button:hover {
+        background-color: #00bfff;
+        color: #000;
+    }
+
+    .content {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .today {
+        flex: 1;
+    }
+
+    .today .weather-info {
+        background-color: white;
+        color: #111;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 0 15px #00bfff;
+        text-align: center;
+    }
+
+    .temperature {
+        font-size: 64px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .forecast {
+        flex: 2;
+    }
+
+    .forecast .time-slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .forecast button {
+        padding: 15px;
+        border-radius: 20px;
+        border: none;
+        background-color: #000;
+        color: white;
+        font-size: 16px;
+        box-shadow: 0 0 10px #00bfff;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .forecast button:hover {
+        background-color: #00bfff;
+        color: #000;
+    }
+
+
+    .weather-day-section {
+        background-color: #1f2937;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 0 8px #00ffff55;
+        color: white;
+    }
+    
+    .weather-day-summary {
+        cursor: pointer;
+        font-size: 1.125rem;
+        font-weight: 600;
+        outline: none;
+        margin-bottom: 0.5rem;
+    }
+    
+    .weather-hour-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .weather-hour-box {
+        background-color: #000;
+        border: 2px solid #06b6d4;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        text-align: center;
+        box-shadow: 0 0 10px #06b6d4;
+        min-width: 80px;
+    }
+    
+    .hour-time {
+        font-family: monospace;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .hour-temp {
+        font-size: 0.95rem;
+    }
+    

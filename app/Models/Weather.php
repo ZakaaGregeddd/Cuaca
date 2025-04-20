@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Weather extends Model
 {
     use HasFactory;
-
+    protected $table = 'cuaca'; // Nama tabel di database
     protected $fillable = ['city_name', 'weather_data'];
 
     protected $casts = [

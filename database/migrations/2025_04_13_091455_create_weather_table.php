@@ -8,16 +8,17 @@ class CreateWeatherTable extends Migration
 {
     public function up()
     {
-        Schema::create('weather', function (Blueprint $table) {
+        Schema::create('cuaca', function (Blueprint $table) {
             $table->id();
             $table->string('city_name');
-            $table->json('weather_data'); // Menyimpan data cuaca dalam format JSON
+            $table->json('weather_data');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('weather');
+        Schema::dropIfExists('cuaca');
     }
-}
+        
+}   
