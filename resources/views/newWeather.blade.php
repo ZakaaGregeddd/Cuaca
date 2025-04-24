@@ -8,6 +8,16 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">CuacaApp</a>
+            <ul class="navbar-menu">
+                <li><a href="/cuaca">Beranda</a></li>
+                <li><a href="/cuaca_db">Riwayat</a></li>
+                <li><a href="/about">Tentang</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <form class="search" method="POST" action="/cuaca_db">
             @csrf
@@ -30,28 +40,29 @@
                         <p>Peluang Hujan: {{ $weather['hourly']['precipitation_probability'][0] ?? 'N/A' }}%</p>
                     </div>
                 @else
-                    <p>Belum ada data cuaca di database.</p>
+                    <p>Mohon masukkan kota.</p>
                 @endif
             </div>
 
             @if($weather)
                 @php
+                $currentHour = \Carbon\Carbon::now()->format('H'); // Ambil jam saat ini
                 $grouped = collect($weather['hourly']['time'])->map(function($time, $i) use ($weather) {
                     return [
-                        'time' => \Carbon\Carbon::parse($time), // Gunakan namespace lengkap
+                        'time' => \Carbon\Carbon::parse($time),
                         'temp' => $weather['hourly']['temperature_2m'][$i] ?? null,
                     ];
                 })->groupBy(fn($item) => $item['time']->translatedFormat('l'));
                 @endphp
 
                 <div class="forecast">
-                    <h2>Perkiraan Cuaca Jam-Jam ke Depan</h2>
+                    <h2>Perkiraan Cuaca Jam-Jam Sekitar</h2>
 
                     @foreach($grouped as $day => $items)
                         <details class="weather-day-section">
                             <summary class="weather-day-summary">{{ $day }}</summary>
                             <div class="weather-hour-grid">
-                                @foreach($items->filter(fn($i) => in_array($i['time']->format('H'), ['06','09','12','15','18','21'])) as $item)
+                                @foreach($items->filter(fn($i) => $i['time']->format('H') >= $currentHour || $day !== 'Kamis') as $item)
                                     <div class="weather-hour-box">
                                         <div class="hour-time">{{ $item['time']->format('H:i') }}</div>
                                         <div class="hour-temp">{{ $item['temp'] }}°C</div>

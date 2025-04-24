@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WeatherController;
 
@@ -15,7 +16,7 @@ Route::post('/cuaca', [WeatherController::class, 'search']);
 Route::get('/cuaca_db', [WeatherController::class, 'showFromDatabase']);
 Route::post('/cuaca_db', [WeatherController::class, 'search']);
 
-
+Route::get('/about', [AboutController::class, 'index']);
 
 
 
