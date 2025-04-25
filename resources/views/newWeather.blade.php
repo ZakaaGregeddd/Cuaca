@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="/" class="navbar-brand">CuacaApp</a>
+            <a href="/" class="navbar-brand">Cuaca</a>
             <ul class="navbar-menu">
                 <li><a href="/cuaca">Beranda</a></li>
                 <li><a href="/cuaca_db">Riwayat</a></li>
@@ -58,11 +58,16 @@
                 <div class="forecast">
                     <h2>Perkiraan Cuaca Jam-Jam Sekitar</h2>
 
-                    @foreach($grouped as $day => $items)
+                    @php
+                    $tomorrow = \Carbon\Carbon::now()->addDay()->translatedFormat('l'); // Ambil nama hari esok
+                @endphp
+                
+                @foreach($grouped as $day => $items)
+                    @if($day === $tomorrow || \Carbon\Carbon::parse($day)->greaterThan(\Carbon\Carbon::now()))
                         <details class="weather-day-section">
                             <summary class="weather-day-summary">{{ $day }}</summary>
                             <div class="weather-hour-grid">
-                                @foreach($items->filter(fn($i) => $i['time']->format('H') >= $currentHour || $day !== 'Kamis') as $item)
+                                @foreach($items->filter(fn($i) => $i['time']->format('H') >= $currentHour || $day !== $tomorrow) as $item)
                                     <div class="weather-hour-box">
                                         <div class="hour-time">{{ $item['time']->format('H:i') }}</div>
                                         <div class="hour-temp">{{ $item['temp'] }}°C</div>
@@ -70,7 +75,8 @@
                                 @endforeach
                             </div>
                         </details>
-                    @endforeach
+                    @endif
+                @endforeach
                 </div>
             @endif
         </div>

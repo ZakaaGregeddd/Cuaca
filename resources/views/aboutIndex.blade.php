@@ -21,7 +21,7 @@
     
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="/" class="navbar-brand">CuacaApp</a>
+            <a href="/" class="navbar-brand">Cuaca</a>
             <ul class="navbar-menu">
                 <li><a href="/cuaca">Beranda</a></li>
                 <li><a href="/cuaca_db">Riwayat</a></li>
@@ -30,26 +30,35 @@
         </div>
     </nav>
     {{-- <div id="about-intro"> --}}
-        <div class="frame-9">
-            <div class="frame-22">
-                <div class="frame-21">
-                    <div class="frame-19">
-                        <img class="aboutbawah" src="{{ asset('img/aboutatas.png') }}" />
-                        <img class="about-tengah" src="{{ asset('img/about-tengah.png') }}" />
-                        <img class="aboutbawah2" src="{{ asset('img/aboutbawah.png') }}" />
-                    </div>
-                    <div class="frame-20">
-                        <img class="zakaatext" src="{{ asset('img/Zakaatext.png') }}" />
-                        <img class="muhammad" src="{{ asset('img/muhammad.png') }}" />
-                        <img class="shahzada" src="{{ asset('img/Shahzada.png') }}" />
-                    </div>
+    <div class="frame-9">
+        <div class="frame-22">
+            <div class="frame-21">
+                <div class="frame-19">
+                    <img class="aboutbawah" src="{{ asset('img/aboutatas.png') }}" />
+                    <img class="about-tengah" src="{{ asset('img/about-tengah.png') }}" />
+                    <img class="aboutbawah2" src="{{ asset('img/aboutbawah.png') }}" />
                 </div>
-                <div class="frame-18">
-                    <img class="fotoosasdasdao-1" src="{{ asset('img/zakaa.png') }}" />
-                    <div class="_12-00-wib" id="live-time"></div>
+                <div class="frame-20">
+                    <img class="zakaatext" src="{{ asset('img/Zakaatext.png') }}" />
+                    <img class="muhammad" src="{{ asset('img/muhammad.png') }}" />
+                    <img class="shahzada" src="{{ asset('img/Shahzada.png') }}" />
                 </div>
             </div>
-        </div>  
+            <div class="frame-18">
+                <img class="fotoosasdasdao-1" src="{{ asset('img/zakaa.png') }}" />
+                <div class="_12-00-wib" id="live-time"></div>
+            </div>
+        </div>
+    </div>  
+    <div class="konten fade-up">
+        <div class="text-konten">
+            <h1>Tentang Kami</h1>
+            <p>Cuaca adalah website cuaca yang memberikan informasi terkini tentang kondisi cuaca di berbagai lokasi. 
+                Dengan website ini pengguna dapat dengan cepat mendapatkan informasi cuaca yang mereka butuhkan.</p>
+            <p>Saya berdedikasi untuk memberikan pengalaman terbaik bagi pengguna. 
+                Dan saya akan terus berupaya meningkatkan aplikasi ini dengan fitur-fitur baru dan pembaruan berkala.</p>
+        </div>
+    </div>
     {{-- </div>       --}}
     <script>
         window.addEventListener('load', () => {
@@ -69,6 +78,24 @@
             }, 1700);
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fadeElements = document.querySelectorAll('.fade-up');
     
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    } else {
+                        entry.target.classList.remove('show');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+    
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
