@@ -34,7 +34,7 @@
                 <h2>Hari Ini - {{ $cityName }}</h2>
                 @if($weather)
                     <div class="weather-info">
-                        <span class="temperature">{{ $weather['hourly']['temperature_2m'][0] ?? 'N/A' }}°C</span>
+                        <span class="temperature">{{ $weather['hourly']['apparent_temperature'][0] ?? 'N/A' }}°C</span>
                         <p>Kelembaban: {{ $weather['hourly']['relative_humidity_2m'][0] ?? 'N/A' }}%</p>
                         <p>Curah Hujan: {{ $weather['hourly']['rain'][0] ?? 'N/A' }} mm</p>
                         <p>Peluang Hujan: {{ $weather['hourly']['precipitation_probability'][0] ?? 'N/A' }}%</p>
@@ -50,7 +50,8 @@
                 $grouped = collect($weather['hourly']['time'])->map(function($time, $i) use ($weather) {
                     return [
                         'time' => \Carbon\Carbon::parse($time),
-                        'temp' => $weather['hourly']['temperature_2m'][$i] ?? null,
+                        'temp' => $weather['hourly']['apparent_temperature'][$i] ?? null,
+                        'preci' => $weather['hourly']['precipitation_probability'][$i] ?? null,
                     ];
                 })->groupBy(fn($item) => $item['time']->translatedFormat('l'));
                 @endphp
@@ -63,14 +64,19 @@
                 @endphp
                 
                 @foreach($grouped as $day => $items)
-                    @if($day === $tomorrow || \Carbon\Carbon::parse($day)->greaterThan(\Carbon\Carbon::now()))
+                    @if($day === \Carbon\Carbon::now()->translatedFormat('l') || $day === $tomorrow || \Carbon\Carbon::parse($day)->greaterThan(\Carbon\Carbon::now()))
                         <details class="weather-day-section">
                             <summary class="weather-day-summary">{{ $day }}</summary>
                             <div class="weather-hour-grid">
-                                @foreach($items->filter(fn($i) => $i['time']->format('H') >= $currentHour || $day !== $tomorrow) as $item)
+                                @foreach($items->filter(fn($i) => 
+                                    ($day === \Carbon\Carbon::now()->translatedFormat('l') && $i['time']->greaterThan(\Carbon\Carbon::now()->addHour())) || 
+                                    ($day === $tomorrow && $i['time']->format('H') >= 0) || 
+                                    $day !== \Carbon\Carbon::now()->translatedFormat('l') && $day !== $tomorrow
+                                ) as $item)
                                     <div class="weather-hour-box">
                                         <div class="hour-time">{{ $item['time']->format('H:i') }}</div>
                                         <div class="hour-temp">{{ $item['temp'] }}°C</div>
+                                        <div class="hour-temp">Peluang Hujan: {{ $item['preci'] }}%</div>
                                     </div>
                                 @endforeach
                             </div>
