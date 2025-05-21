@@ -15,10 +15,15 @@
                 <li><a href="/cuaca">Beranda</a></li>
                 <li><a href="/cuaca_db">Riwayat</a></li>
                 <li><a href="/about">Tentang</a></li>
+                <li><a href="/profile">Profile</a></li>
             </ul>
         </div>
     </nav>
     <div class="container">
+        @auth
+            <p>Selamat datang, {{ Auth::user()->name }}!</p>
+        @endauth
+
         <form class="search" method="POST" action="/cuaca_db">
             @csrf
             <input type="text" name="city" placeholder="Cari kota...">

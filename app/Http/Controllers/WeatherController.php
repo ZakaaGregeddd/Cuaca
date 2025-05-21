@@ -65,6 +65,9 @@ class WeatherController extends Controller
         ]);
     }
 
+
+
+    
     private function getAndStoreWeather($lat, $lon, $city)
     {
         $weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude={$lat}&longitude={$lon}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,rain&timezone=auto";

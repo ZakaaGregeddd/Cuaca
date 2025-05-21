@@ -26,6 +26,7 @@
                 <li><a href="/cuaca">Beranda</a></li>
                 <li><a href="/cuaca_db">Riwayat</a></li>
                 <li><a href="/about">Tentang</a></li>
+                <li><a href="/profile">Profile</a></li>
             </ul>
         </div>
     </nav>
