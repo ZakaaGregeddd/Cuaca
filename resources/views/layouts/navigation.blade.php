@@ -98,16 +98,5 @@
         </div>
     </div>
 
-    <div class="hidden sm:flex sm:items-center sm:ml-6">
-        @auth
-            <span class="text-gray-600 dark:text-gray-400">{{ Auth::user()->name }}</span>
-            <form method="POST" action="{{ route('logout') }}" class="ml-4">
-                @csrf
-                <button type="submit" class="text-gray-600 dark:text-gray-400">Logout</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}" class="text-gray-600 dark:text-gray-400">Login</a>
-            <a href="{{ route('register') }}" class="ml-4 text-gray-600 dark:text-gray-400">Register</a>
-        @endauth
-    </div>
+    
 </nav>
