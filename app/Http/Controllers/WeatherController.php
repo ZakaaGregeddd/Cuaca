@@ -13,6 +13,7 @@ class WeatherController extends Controller
         return view('newWeather', ['weather' => null, 'cityName' => null, 'error' => null]);
     }
 
+    // Get data korrdinat dari OpenStreetMap melalu data yang telah di post 
     public function search(Request $request)
     {
         $city = $request->input('city');
@@ -34,34 +35,14 @@ class WeatherController extends Controller
         return $this->getAndStoreWeather($lat, $lon, $city);
     }
 
+
+    //masih perbaikan untuk ambil data lokasi  
     public function showFromDatabase(Request $request)
     {
-        $latestWeather = Weather::latest()->first();
+        $weatherHistory = Weather::all();
 
-        // Jika belum ada data dan tidak ada input kota, coba pakai IP user
-        if (!$request->has('city') && !$latestWeather) {
-            $ip = $request->ip();
-            $location = Http::get("http://ip-api.com/json/{$ip}")->json();
-
-            if (!isset($location['lat']) || !isset($location['lon'])) {
-                return view('newWeather', [
-                    'weather' => null,
-                    'cityName' => null,
-                    'error' => 'Gagal mendeteksi lokasi berdasarkan IP.'
-                ]);
-            }
-
-            $lat = $location['lat'];
-            $lon = $location['lon'];
-            $city = $location['city'] ?? 'Lokasi Saat Ini';
-
-            return $this->getAndStoreWeather($lat, $lon, $city);
-        }
-
-        return view('newWeather', [
-            'weather' => $latestWeather?->weather_data,
-            'cityName' => $latestWeather?->city_name,
-            'error' => null,
+        return view('weather_blade_history', [
+            'weatherHistory' => $weatherHistory
         ]);
     }
 
