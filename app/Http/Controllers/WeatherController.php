@@ -36,13 +36,34 @@ class WeatherController extends Controller
     }
 
 
-    //masih perbaikan untuk ambil data lokasi  
+    
     public function showFromDatabase(Request $request)
     {
-        $weatherHistory = Weather::all();
+        $apiUrl = url('/api/weather-history');
+        $response = Http::get($apiUrl);
+
+        if ($response->failed()) {
+            return view('weather_blade_history', [
+                'weatherHistory' => [],
+                'error' => 'Gagal mengambil data dari API.'
+            ]);
+        }
+
+        $weatherHistory = $response->json()['data'] ?? [];
 
         return view('weather_blade_history', [
             'weatherHistory' => $weatherHistory
+        ]);
+    }
+
+    
+    public function getWeatherHistory()
+    {
+        $weatherHistory = Weather::all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $weatherHistory
         ]);
     }
 
@@ -77,4 +98,6 @@ class WeatherController extends Controller
         $weatherHistory = Weather::all();
         return view('weather_history', compact('weatherHistory'));
     }
+
+    
 }
