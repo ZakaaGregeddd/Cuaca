@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Weather;
-use Illuminate\Support\Facades\Log;
 
 class WeatherController extends Controller
 {
@@ -41,12 +40,9 @@ class WeatherController extends Controller
     public function showFromDatabase(Request $request)
     {
         $apiUrl = url('/api/weather-history');
-        Log::info('Mengirim permintaan ke API: ' . $apiUrl); // Logging sebelum request
-
-        $response = Http::timeout(60)->get($apiUrl); // Menambahkan timeout 60 detik
+        $response = Http::get($apiUrl);
 
         if ($response->failed()) {
-            Log::error('Gagal mengambil data dari API', ['status' => $response->status(), 'body' => $response->body()]); // Logging jika gagal
             return view('weather_blade_history', [
                 'weatherHistory' => [],
                 'error' => 'Gagal mengambil data dari API.'
@@ -54,7 +50,6 @@ class WeatherController extends Controller
         }
 
         $weatherHistory = $response->json()['data'] ?? [];
-        Log::info('Data berhasil diambil dari API', ['data' => $weatherHistory]); // Logging jika berhasil
 
         return view('weather_blade_history', [
             'weatherHistory' => $weatherHistory

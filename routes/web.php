@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/about', [AboutController::class, 'index']);
 });
 
+// Rute untuk RESTful API
 Route::get('/api/weather-history', [WeatherController::class, 'getWeatherHistory']);
 
 require __DIR__.'/auth.php';
